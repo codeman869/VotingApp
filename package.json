@@ -17,5 +17,10 @@
     "passport"
   ],
   "author": "Cody Deckard",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.1",
+    "mongoose": "^4.8.5",
+    "passport": "^0.3.2"
+  }
 }
