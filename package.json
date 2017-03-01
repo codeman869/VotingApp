@@ -17,6 +17,7 @@
     "passport"
   ],
   "author": "Cody Deckard",
+  "repository": "https://github.com/codeman869/VotingApp"
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.1",
