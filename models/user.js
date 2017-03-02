@@ -7,7 +7,7 @@ let UserSchema = new mongoose.Schema(
             type: String, 
             unique: true
         },
-        hashed_password: String
+        password: String
     },
     {
         timestamps: true
