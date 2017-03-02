@@ -9,7 +9,7 @@ const path = require('path');
 //let MongoStore = require('connect-mongo')(express);
 
 
-const apiroutes = require('./controllers');
+//const apiroutes = require('./controllers');
 const signup = require('./authentication/signup');
 const login = require('./authentication/login');
 
@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
-mongoose.connect('mongodb://localhost:27017/voting');
+mongoose.connect(process.env.MONGO_URI);
 
 /*
 app.use(session({
