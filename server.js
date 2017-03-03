@@ -73,6 +73,8 @@ const routes = require('./routes/index')(passport);
 
 app.use('/', routes);
 
-app.listen(port);
+let server = app.listen(port, () => console.log(`Application running on port: ${port}`));
 
-console.log(`Application running on port: ${port}`)
+exports.closeServer = function() {
+    server.close();
+}
