@@ -75,7 +75,11 @@ app.use('/', routes);
 
 let server = app.listen(port, () => console.log(`Application running on port: ${port}`));
 
+module.exports = app;
+
+/*
 exports.closeServer = function() {
     server.close();
     mongoose.connection.close();
 }
+*/

@@ -3,6 +3,7 @@ node_js: "6"
 services:
     - mongodb
 before_script:
+    - npm i mocha -g
     - sleep 15
     - mongo mydb_test --eval 'db.addUser("travis", "test")'
 env: 
