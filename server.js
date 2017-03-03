@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/votetesting');
 
 /*
 app.use(session({
@@ -39,7 +39,7 @@ app.use(session({
 */
 
 app.use(expressSession({
-    secret: process.env.SECRET
+    secret: process.env.SECRET || 'testsecret'
 }))
 
 app.use(passport.initialize());
