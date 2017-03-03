@@ -77,4 +77,5 @@ let server = app.listen(port, () => console.log(`Application running on port: ${
 
 exports.closeServer = function() {
     server.close();
+    mongoose.connection.close();
 }
