@@ -34,7 +34,7 @@ describe("Basic Voting App Tests", () => {
         
         
     });
-    /*
+   
     after((done) => {
         
         User.remove({},()=>{
@@ -43,7 +43,7 @@ describe("Basic Voting App Tests", () => {
         });
         
     });
-   */
+   
    describe("GET /", () => {
        it("returns status code 200", (done) => {
           
