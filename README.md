@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/codeman869/VotingApp.svg?branch=master)](https://travis-ci.org/codeman869/VotingApp)
-[![Coverage Status](https://coveralls.io/repos/github/codeman869/VotingApp/badge.svg?branch=coveralls)](https://coveralls.io/github/codeman869/VotingApp?branch=coveralls)
+[![Coverage Status](https://coveralls.io/repos/github/codeman869/VotingApp/badge.svg?branch=master)](https://coveralls.io/github/codeman869/VotingApp?branch=master)
 
 # Voting Application
 
