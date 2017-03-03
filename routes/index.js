@@ -14,7 +14,7 @@ module.exports = (passport) => {
     }));
     
     router.get('/signup', (req,res) => {
-        console.log('this was a get request');
+        //console.log('this was a get request');
         res.render('signup');
     })
     

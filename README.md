@@ -1,22 +1,14 @@
+[![Build Status](https://travis-ci.org/codeman869/VotingApp.svg?branch=master)](https://travis-ci.org/codeman869/VotingApp)
+[![Coverage Status](https://coveralls.io/repos/github/codeman869/VotingApp/badge.svg?branch=coveralls)](https://coveralls.io/github/codeman869/VotingApp?branch=coveralls)
 
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+# Voting Application
 
+This application is intended to allow users to log in, vote on various polls
+and create polls of their own.
 
-Welcome to your Node.js project on Cloud9 IDE!
+To set up the repository:
 
-This chat example showcases how to use `socket.io` with a static `express` server.
-
-## Running the server
-
-1) Open `server.js` and start the app by clicking on the "Run" button in the top menu.
-
-2) Alternatively you can launch the app from the Terminal:
-
-    $ node server.js
-
-Once the server is running, open the project in the shape of 'https://projectname-username.c9users.io/'. As you enter your name, watch the Users list (on the left) update. Once you press Enter or Send, the message is shared with all connected clients.
+```
+$>npm install
+$>npm start
+```

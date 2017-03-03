@@ -19,9 +19,7 @@ module.exports = function(passport) {
             let newUser = new User();
            
             newUser.username = username;
-            newUser.password = createHash(password);
-            
-            console.log(`Creating new user with username: ${newUser.username} and password ${newUser.password}`);
+            newUser.password = password;
            
             newUser.save((err) => {
                 if(err) console.warn(err);
@@ -37,8 +35,4 @@ module.exports = function(passport) {
         process.nextTick(findOrCreate);
     
     }));
-}
-
-function createHash(password) {
-    return bCrypt.hashSync(password, bCrypt.genSaltSync(10),null);
 }

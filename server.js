@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/votetesting');
 
 /*
 app.use(session({
@@ -39,7 +39,7 @@ app.use(session({
 */
 
 app.use(expressSession({
-    secret: process.env.SECRET
+    secret: process.env.SECRET || 'testsecret'
 }))
 
 app.use(passport.initialize());
@@ -73,6 +73,13 @@ const routes = require('./routes/index')(passport);
 
 app.use('/', routes);
 
-app.listen(port);
+let server = app.listen(port, () => console.log(`Application running on port: ${port}`));
 
-console.log(`Application running on port: ${port}`)
+module.exports = app;
+
+/*
+exports.closeServer = function() {
+    server.close();
+    mongoose.connection.close();
+}
+*/

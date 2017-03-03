@@ -1,0 +1,11 @@
+language: node_js
+node_js: "6"
+services:
+    - mongodb
+before_script:
+    - npm i mocha -g
+    - npm i istanbul -g
+    - sleep 15
+    - mongo mydb_test --eval 'db.addUser("travis", "test")'
+env: 
+    - SECRET=testsecret MONGO_URI=mongodb://localhost:27017/testvoting
