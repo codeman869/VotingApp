@@ -5,11 +5,11 @@ const bCrypt = require('bcrypt-nodejs');
 
 let User = require('../models/user');
 
-
+/*
 function validPassword(user, password) {
     return bCrypt.compareSync(password,user.password);
 }
-
+*/
 module.exports = function(passport) {
     passport.use('login',
     new LocalStrategy((username, password, done) => {
@@ -19,7 +19,7 @@ module.exports = function(passport) {
            
            if(!usr) return done(null,false);
            
-           if(!validPassword(usr,password)) return done(null, false);
+           if(!usr.validPassword(password)) return done(null, false);
             
             console.log('Successfully Signed in!');
             return done(null,usr);
