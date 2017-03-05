@@ -2,6 +2,8 @@
 const express = require('express');
 let router = express.Router();
 
+const pollRoutes = require('./polls');
+
 module.exports = (passport) => {
     
     router.get('/', (req,res) => {
@@ -32,6 +34,7 @@ module.exports = (passport) => {
        res.render('home', {user: req.user.username}); 
     });
     
+    router.use('/polls', pollRoutes);
     
     return router;
 }

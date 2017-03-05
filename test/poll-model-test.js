@@ -39,7 +39,7 @@ describe("Poll Model Spec", ()=>{
                     if(err) throw err;
                 
                     pollId = newPoll._id;
-                    console.log(`Poll ID is ${pollId}`);
+                    //console.log(`Poll ID is ${pollId}`);
                     
                     done();    
                 

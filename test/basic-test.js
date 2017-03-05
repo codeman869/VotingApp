@@ -6,25 +6,37 @@ let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
 let User = require('../models/user');
+let Poll = require('../models/poll');
 
 
 chai.use(chaiHttp);
 
-describe("Basic Voting App Tests", () => {
+let user, poll;
+
+
+describe("Application Route Testing", () => {
     
     before((done) => {
         
         User.remove({}, ()=> {
             
-            let newUser = new User();
+            user = new User();
             
-            newUser.username = 'testuser';
-            newUser.password = 'testpassword';
+            user.username = 'testuser';
+            user.password = 'testpassword';
             
-            newUser.save((err) => {
+            user.save((err) => {
                 if(err) throw err;
+                poll = new Poll();
+                poll.question = 'test question';
+                poll.owner_id = user._id;
                 
-                done();
+                poll.save((err) => {
+                    if(err) throw err;
+                    
+                    done();
+                    
+                });
                 
             });
             
@@ -39,7 +51,10 @@ describe("Basic Voting App Tests", () => {
         
         User.remove({},()=>{
             
-            done();
+            Poll.remove({}, () => {
+                
+                done();
+            });
         });
         
     });
@@ -159,6 +174,41 @@ describe("Basic Voting App Tests", () => {
                     res.should.have.status(200);
                     res.should.be.html;
                     done();        
+                });
+            
+        });
+        
+    });
+    
+    describe("GET /polls", () => {
+        it('should be routable', (done) =>{
+            
+            chai.request(server)
+                .get('/polls')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    res.should.have.status(200);
+                    done();
+                });
+            
+        });
+    });
+    
+    describe("GET /polls/:id", () => {
+        it('should show a particular poll', (done) =>{
+            
+            chai.request(server)
+                .get('/polls/' + poll.id)
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    res.body._id.should.equal(poll.id);
+                    res.body.question.should.equal(poll.question);
+                    done();
+                    
                 });
             
         });
