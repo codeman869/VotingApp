@@ -8,6 +8,8 @@ router.get('/:id', (req,res) => {
     Poll.findById(req.params.id,(err,poll) =>{
         if(err) return res.send('Could not find poll');
             
+        //res.render('polls/poll', {question: poll.question});
+        
         res.json(poll);
             
     });
