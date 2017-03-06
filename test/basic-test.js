@@ -213,6 +213,21 @@ describe("Application Route Testing", () => {
             
         });
         
+        it('should return an error for an invalid id', (done) => {
+            
+            chai.request(server)
+                .get('/polls/' + 5)
+                .end((err,res) => {
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    res.text.should.equal('Could not find poll');
+                    done();
+                    
+                });
+            
+        });
+        
     });
     
 });

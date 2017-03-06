@@ -177,6 +177,23 @@ describe("Poll Model Spec", ()=>{
             
         });
         
+        it('returns an error when voting for a non valid option',(done) => {
+            
+            Poll.findById(pollId, (err,poll) => {
+                
+                let bounds = poll.options.length;
+                
+                poll.voteFor(bounds+1, (err,data)=>{
+                    
+                    should.exist(err);
+                    done();
+                    
+                });
+                
+            });
+            
+        });
+        
     });
     
 });
