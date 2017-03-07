@@ -114,7 +114,7 @@ describe("Application Route Testing", () => {
                     
                     res.should.have.status(200);
                     res.should.be.html;
-                    res.text.should.include('<form action="/signup" method="POST"');
+                    //res.text.should.include('<form action="/signup" method="POST"');
                     //console.log(res.text);
                     
                     done();
@@ -227,6 +227,43 @@ describe("Application Route Testing", () => {
                 });
             
         });
+        
+    });
+    
+    describe('POST /users/exists', () =>{
+        
+        it('should return true if the user exists', (done) =>{
+            
+            chai.request(server)
+                .post(`/users/exists`)
+                .send({username: user.username})
+                .set('content-type', 'application/json')
+                .end((err,res) => {
+                    
+                    res.body.username.should.be.true;
+                    
+                    done();
+                });
+            
+        });
+        
+        it('should return false if the user does not exist', (done) =>{
+            
+            chai.request(server)
+                .post(`/users/exists`)
+                .send({username: user.username + '123456'})
+                .set('content-type', 'application/json')
+                .end((err,res) => {
+                    
+                    //console.log(res);
+                    res.body.username.should.be.false
+                    
+                    done();
+                    
+                });
+            
+        });
+        
         
     });
     

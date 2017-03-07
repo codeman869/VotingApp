@@ -68,7 +68,9 @@ app.get('/', (req,res) => {
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
+app.use('/bootstrap', express.static(path.join('node_modules', 'bootstrap', 'dist' )));
+app.use('/jquery', express.static(path.join('node_modules', 'jquery', 'dist')));
+app.use('/scripts', express.static(path.join('public', 'scripts')))
 const routes = require('./routes/index')(passport);
 
 app.use('/', routes);

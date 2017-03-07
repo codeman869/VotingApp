@@ -10,7 +10,7 @@ module.exports = function(passport) {
     }, (req,username,password,done) => {
     
         function findOrCreate() {
-            console.log('finding user...');
+            //console.log('finding user...');
             User.findOne({username: username}, (err,usr) => {
             if(err) console.warn(err);
             
@@ -24,7 +24,7 @@ module.exports = function(passport) {
             newUser.save((err) => {
                 if(err) console.warn(err);
                 
-                console.log('Saved Successfully!');
+                //console.log('Saved Successfully!');
                 
                 return done(null,newUser);
             });
