@@ -1,13 +1,23 @@
+include ./jquery.pug
+script(src='/scripts/menubar.js')
 nav.navbar.navbar-inverse
     .container-fluid
         .navbar-header
             a.navbar-brand(href="/") Voting App
         ul.nav.navbar-nav.navbar-right
-            li
-                a(href="/signup")
-                    span.glyphicon.glyphicon-user
-                    | Sign Up
-            li
-                a(href="/login")
-                    span.glyphicon.glyphicon-log-in
-                    | Log In
+            if(request.user)
+                li
+                    p.navbar-text Signed in as #{request.user.username}
+                li
+                    a(href="#" id="logout")
+                        span.glyphicon.glyphicon-log-out
+                        | &nbsp; Log Out
+            else
+                li
+                    a(href="/signup")
+                        span.glyphicon.glyphicon-user
+                        | &nbsp; Sign Up
+                li
+                    a(href="/login")
+                        span.glyphicon.glyphicon-log-in
+                        | &nbsp; Log In

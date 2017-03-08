@@ -18,11 +18,12 @@ module.exports = (passport) => {
     
     router.get('/signup', (req,res) => {
         //console.log('this was a get request');
-        res.render('signup');
+        res.render('signup', {request: req});
     })
     
     router.get('/login', (req,res) => {
-        res.render('login');
+        
+        res.render('login', {request: req});
         
     });
     
@@ -32,7 +33,16 @@ module.exports = (passport) => {
     }));
     
     router.get('/home', isAuthenticated, (req,res) => {
-       res.render('home', {user: req.user.username}); 
+       
+       res.render('home', {user: req.user.username, request: req}); 
+    });
+    
+    router.delete('/logout', isAuthenticated, (req,res) => {
+        
+        req.logout();
+        
+        res.render('login', {request: req});
+        
     });
     
     router.use('/users', userRoutes);
