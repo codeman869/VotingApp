@@ -21,7 +21,7 @@ module.exports = function(passport) {
            
            if(!usr.validPassword(password)) return done(null, false);
             
-            console.log('Successfully Signed in!');
+            //console.log('Successfully Signed in!');
             return done(null,usr);
         });   
         
