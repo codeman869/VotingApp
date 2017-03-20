@@ -18,7 +18,7 @@ let agent = chai.request.agent(server);
 
 describe("Application Route Testing", () => {
     
-    before((done) => {
+    beforeEach((done) => {
         
         User.remove({}, ()=> {
             
@@ -60,7 +60,7 @@ describe("Application Route Testing", () => {
         
     });
    
-    after((done) => {
+    afterEach((done) => {
         
         User.remove({},()=>{
             
@@ -332,5 +332,105 @@ describe("Application Route Testing", () => {
         
         
     });
+    
+    describe('GET /polls/new', () => {
+        
+        it('cannot be accessed by unauthenticated users', (done) => {
+            
+            chai.request(server)
+                .get('/polls/new')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    
+                    res.should.redirect;
+                    
+                    done();
+                    
+                    
+                });
+            
+        });
+        
+        it('can be accessed by authenticated users', (done) => {
+            
+            agent.get('/polls/new')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    
+                    res.should.be.html;
+                    
+                    done();
+                    
+                });
+        });
+        
+    });
+    
+    describe("POST /polls/new", () => {
+        
+        it('cannot be accessed by unauthenticated users', (done) => {
+            
+            chai.request(server)
+                .post('/polls/new')
+                .send({question: 'Sample Question' , option1: 'option1', option2: 'option2'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    
+                    res.should.be.html;
+                    
+                    Poll.findOne({question: 'Sample Question'}, (err,poll) => {
+                        
+                        should.not.exist(poll);
+                        
+                        done();    
+                        
+                        
+                    });
+                    
+                    
+                    
+                });
+            
+            
+        });
+        
+        
+        it('can be accessed by an authenticated user', (done) => {
+            
+            agent.post('/polls/new')
+                .send({question: 'The Real Question', option1: 'Option1', option2: 'Option2'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    //console.log(res);
+                    Poll.findOne({question: 'The Real Question'}, (err,poll) => {
+                        
+                        should.not.exist(err);
+                        
+                        poll.should.exist;
+                        done();
+                        
+                    });
+                    
+                    
+                });
+            
+        });
+        
+    });
+    
+    
+    
     
 });
