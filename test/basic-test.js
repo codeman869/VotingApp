@@ -13,6 +13,8 @@ chai.use(chaiHttp);
 
 let user, poll;
 
+let agent = chai.request.agent(server);
+
 
 describe("Application Route Testing", () => {
     
@@ -33,8 +35,8 @@ describe("Application Route Testing", () => {
                 
                 poll.save((err) => {
                     if(err) throw err;
+                    loginUser();
                     
-                    done();
                     
                 });
                 
@@ -43,7 +45,18 @@ describe("Application Route Testing", () => {
             
         });
         
-        
+        function loginUser() {
+            agent.post('/login')
+                .send({username: 'testuser' , password: 'testpassword'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    if(err) throw err;
+                    
+                    done();
+                    
+                    
+                });
+        }
         
     });
    
@@ -92,6 +105,7 @@ describe("Application Route Testing", () => {
                     
                     res.should.be.html;
                     
+                    res.should.redirect
                     //console.log(res.path);
                     
                     done();
@@ -158,6 +172,25 @@ describe("Application Route Testing", () => {
         
     });
     
+    describe("GET /login", () =>{
+        
+        it('should respond with a status 200', (done)=>{
+            
+            chai.request(server)
+                .get('/login')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    
+                    done();
+                    
+                });
+            
+        });
+        
+    });
     
     describe("POST /login", () => {
         
@@ -175,6 +208,39 @@ describe("Application Route Testing", () => {
                     res.should.be.html;
                     done();        
                 });
+            
+        });
+        
+    });
+    
+    describe("DELETE /logout", () => {
+        
+        it('is only routable if the user is signed in', (done)=>{
+            
+            chai.request(server)
+                .delete('/logout')
+                .end((err,res) =>{
+                    
+                    should.not.exist(err);
+                    res.should.redirect;
+                    //console.log(res);
+                    //res.url.should.equal('/');
+                    done();
+                });
+            
+        });
+        
+        it('will logout the user', (done) => {
+            
+            agent.delete('/logout')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    done();
+                    
+                });
+            
             
         });
         
