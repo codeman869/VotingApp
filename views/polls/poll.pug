@@ -1,4 +1,23 @@
 include ../includes/bootstrap.pug
 include ../includes/menu.pug
-h1 Poll
-span #{question}
+.container
+    .row
+        .col-md-6.col-md-offset-3
+            .text-center.page-header
+                h3 #{poll.question}
+            form.form(action=`/polls/${poll._id}/vote` method='POST')
+                .form-group
+                    each thing, index in poll.options
+                        .radio
+                            label
+                                input(type='radio' name="radioOptions" value=`${index}`) 
+                                | #{thing.option} - #{thing.votes}
+                    if request.user
+                        .input-group
+                            span.input-group-addon
+                                input(type="radio" name="radioOptions")
+                            input(type="text" class="form-control")
+                .form-group
+                    button.btn.btn-primary(type='submit') 
+                        span.glyphicon.glyphicon-send
+                        | &nbsp; Vote!

@@ -39,11 +39,31 @@ router.get('/:id', (req,res) => {
         if(err) return res.send('Could not find poll');
             
         //res.render('polls/poll', {question: poll.question});
-        
-        res.json(poll);
+        //console.log(req);
+        res.render('polls/poll', {request: req, poll: poll});
             
     });
         
+});
+
+router.post('/:id/vote', (req,res) => {
+    
+    //console.log(req);
+    
+    Poll.findById(req.params.id, (err,poll) => {
+        if(err) res.redirect('/');
+        
+        poll.voteFor(Number(req.body.radioOptions), (err) => {
+            
+            res.redirect(`/polls/${poll._id}`);
+            
+        });
+        
+        
+    });
+    
+    //res.json({completed: true});
+    
 });
     
 router.get('/', (req,res) => {

@@ -120,11 +120,11 @@ describe("Poll Model Spec", ()=>{
                 let originalLength = poll.options.length;
                 
                 
-                poll.addOption('Option 3', (err,data) => {
+                poll.addOption('Option 3', (err) => {
                     
                     should.not.exist(err);
 
-                    data.options.length.should.equal(originalLength + 1);
+                    poll.options.length.should.equal(originalLength + 1);
                     
                     done();    
                     
@@ -146,11 +146,11 @@ describe("Poll Model Spec", ()=>{
                 
                 let numVotes = poll.options[1].votes;
                 
-                poll.voteFor(1, (err,data) => {
+                poll.voteFor(1, (err) => {
                     
                     if(err) throw err;
                     
-                    data.options[1].votes.should.be.equal(numVotes + 1);
+                    poll.options[1].votes.should.be.equal(numVotes + 1);
                     
                     done();
                 });

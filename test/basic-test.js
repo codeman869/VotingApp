@@ -19,7 +19,7 @@ let agent = chai.request.agent(server);
 describe("Application Route Testing", () => {
     
     beforeEach((done) => {
-        
+       // poll = null;
         User.remove({}, ()=> {
             
             user = new User();
@@ -271,8 +271,8 @@ describe("Application Route Testing", () => {
                     should.not.exist(err);
                     
                     res.should.have.status(200);
-                    res.body._id.should.equal(poll.id);
-                    res.body.question.should.equal(poll.question);
+                    res.text.should.contain(poll.question);
+
                     done();
                     
                 });
@@ -427,6 +427,34 @@ describe("Application Route Testing", () => {
                 });
             
         });
+        
+    });
+    
+    
+    describe("POST /polls/:id/vote", () => {
+        /*
+        it('Increases the vote option by 1', (done) => {
+            
+            poll.addOption('Test option', (err) => {
+                
+                let votes = poll.options[0].votes;
+                
+                chai.request(server)
+                    .post(`/polls/${poll._id}/vote`)
+                    .send({radioOptions: 0})
+                    .set('content-type', 'application/x-www-form-urlencoded')
+                    .end((err,res) => {
+                       
+                        should.not.exist(err);
+                       
+                        poll.options[0].votes.should.be(votes+1);
+                        done();
+                    });
+                
+            })
+            
+        });
+        */
         
     });
     

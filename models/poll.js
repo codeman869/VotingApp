@@ -31,7 +31,7 @@ PollSchema.methods.addOption = function(option,cb) {
         
         if(err) return cb(err);
         
-        cb(null,this);
+        cb(null);
         
     });
     
@@ -49,7 +49,7 @@ PollSchema.methods.voteFor = function(option, cb) {
         
         if(err) return cb(err);
         
-        cb(null, this);
+        cb(null);
         
     });
     
