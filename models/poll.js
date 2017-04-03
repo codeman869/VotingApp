@@ -41,6 +41,8 @@ PollSchema.methods.addOption = function(option,cb) {
 
 PollSchema.methods.voteFor = function(option, cb) {
     
+    if(isNaN(Number(option))) return cb(new Error("Option must be a number!"));
+    
     if(option < 0 || option >= this.options.length ) return cb(new Error('Option out of range'));
     
     this.options[option].votes += 1;

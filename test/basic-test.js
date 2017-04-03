@@ -432,10 +432,13 @@ describe("Application Route Testing", () => {
     
     
     describe("POST /polls/:id/vote", () => {
-        /*
+        
         it('Increases the vote option by 1', (done) => {
             
+            
             poll.addOption('Test option', (err) => {
+                
+                //console.log(poll.options[0].votes);
                 
                 let votes = poll.options[0].votes;
                 
@@ -446,15 +449,43 @@ describe("Application Route Testing", () => {
                     .end((err,res) => {
                        
                         should.not.exist(err);
-                       
-                        poll.options[0].votes.should.be(votes+1);
-                        done();
+                        
+                        Poll.findById(poll._id, (err,data) =>{
+                            
+                            data.options[0].should.include({votes: votes+1 });
+                            done();    
+                            
+                        });
                     });
-                
-            })
+            });
             
         });
-        */
+        
+        
+        it('Adds a new option when specified',(done) => {
+            
+            agent.post(`/polls/${poll._id}/vote`)
+                .send({radioOptions: 'addOption', newOption: 'Test Option 2'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    Poll.findById(poll._id, (err,data) => {
+                       
+                       should.not.exist(err);
+                       //console.log(data.options);
+                       data.options[0].should.contain({option: 'Test Option 2', votes: 1});
+                       
+                       done();
+                        
+                    });
+                    
+                });
+            
+        });
+        
+        
         
     });
     

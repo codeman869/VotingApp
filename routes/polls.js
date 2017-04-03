@@ -48,16 +48,35 @@ router.get('/:id', (req,res) => {
 
 router.post('/:id/vote', (req,res) => {
     
-    //console.log(req);
-    
     Poll.findById(req.params.id, (err,poll) => {
         if(err) res.redirect('/');
         
-        poll.voteFor(Number(req.body.radioOptions), (err) => {
+        if(req.body.radioOptions === 'addOption') {
             
-            res.redirect(`/polls/${poll._id}`);
+            poll.addOption(req.body.newOption, (err) => {
+                if(err) return res.redirect(`/polls/${poll._id}`);
+                
+                poll.voteFor(poll.options.length - 1, (err) => {
+                    
+                    if(err) return res.redirect(`/polls/${poll._id}`);
+                    
+                    res.redirect(`/polls/${poll._id}`);
+                    
+                });
+                
+            });
             
-        });
+        } else {
+        
+            poll.voteFor(Number(req.body.radioOptions), (err) => {
+            
+                if(err) return res.redirect(`/polls/${poll._id}`);
+            
+                res.redirect(`/polls/${poll._id}`);
+            
+            });
+        
+        }
         
         
     });
