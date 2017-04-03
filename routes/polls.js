@@ -51,7 +51,11 @@ router.post('/:id/vote', (req,res) => {
     Poll.findById(req.params.id, (err,poll) => {
         if(err) res.redirect('/');
         
+        let auth = req.isAuthenticated();
+            
         if(req.body.radioOptions === 'addOption') {
+            
+            if(!auth) return res.sendStatus(401);
             
             poll.addOption(req.body.newOption, (err) => {
                 if(err) return res.redirect(`/polls/${poll._id}`);

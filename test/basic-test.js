@@ -486,6 +486,23 @@ describe("Application Route Testing", () => {
         });
         
         
+        it('only allows authenticated users to add new options', (done) => {
+            
+            chai.request(server)
+                .post(`/polls/${poll._id}/vote`)
+                .send({radioOptions: 'addOption', newOption: 'Test Option 3'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    err.should.exist;
+                    
+                    done();
+                    
+                });
+            
+        });
+        
+        
         
     });
     
