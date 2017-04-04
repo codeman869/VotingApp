@@ -18,8 +18,8 @@ let agent = chai.request.agent(server);
 
 describe("Application Route Testing", () => {
     
-    before((done) => {
-        
+    beforeEach((done) => {
+       // poll = null;
         User.remove({}, ()=> {
             
             user = new User();
@@ -60,7 +60,7 @@ describe("Application Route Testing", () => {
         
     });
    
-    after((done) => {
+    afterEach((done) => {
         
         User.remove({},()=>{
             
@@ -259,6 +259,23 @@ describe("Application Route Testing", () => {
                 });
             
         });
+        
+        it('will use the skip url parameter', (done) => {
+            
+            chai.request(server)
+                .get('/polls?skip=2')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    res.should.have.status(200);
+                    
+                    res.should.be.html;
+                    
+                    done();
+                });
+            
+        });
+        
     });
     
     describe("GET /polls/:id", () => {
@@ -271,8 +288,8 @@ describe("Application Route Testing", () => {
                     should.not.exist(err);
                     
                     res.should.have.status(200);
-                    res.body._id.should.equal(poll.id);
-                    res.body.question.should.equal(poll.question);
+                    res.text.should.contain(poll.question);
+
                     done();
                     
                 });
@@ -332,5 +349,181 @@ describe("Application Route Testing", () => {
         
         
     });
+    
+    describe('GET /polls/new', () => {
+        
+        it('cannot be accessed by unauthenticated users', (done) => {
+            
+            chai.request(server)
+                .get('/polls/new')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    
+                    res.should.redirect;
+                    
+                    done();
+                    
+                    
+                });
+            
+        });
+        
+        it('can be accessed by authenticated users', (done) => {
+            
+            agent.get('/polls/new')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    
+                    res.should.be.html;
+                    
+                    done();
+                    
+                });
+        });
+        
+    });
+    
+    describe("POST /polls/new", () => {
+        
+        it('cannot be accessed by unauthenticated users', (done) => {
+            
+            chai.request(server)
+                .post('/polls/new')
+                .send({question: 'Sample Question' , option1: 'option1', option2: 'option2'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    
+                    res.should.be.html;
+                    
+                    Poll.findOne({question: 'Sample Question'}, (err,poll) => {
+                        
+                        should.not.exist(poll);
+                        
+                        done();    
+                        
+                        
+                    });
+                    
+                    
+                    
+                });
+            
+            
+        });
+        
+        
+        it('can be accessed by an authenticated user', (done) => {
+            
+            agent.post('/polls/new')
+                .send({question: 'The Real Question', option1: 'Option1', option2: 'Option2'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    //console.log(res);
+                    Poll.findOne({question: 'The Real Question'}, (err,poll) => {
+                        
+                        should.not.exist(err);
+                        
+                        poll.should.exist;
+                        done();
+                        
+                    });
+                    
+                    
+                });
+            
+        });
+        
+    });
+    
+    
+    describe("POST /polls/:id/vote", () => {
+        
+        it('Increases the vote option by 1', (done) => {
+            
+            
+            poll.addOption('Test option', (err) => {
+                
+                //console.log(poll.options[0].votes);
+                
+                let votes = poll.options[0].votes;
+                
+                chai.request(server)
+                    .post(`/polls/${poll._id}/vote`)
+                    .send({radioOptions: 0})
+                    .set('content-type', 'application/x-www-form-urlencoded')
+                    .end((err,res) => {
+                       
+                        should.not.exist(err);
+                        
+                        Poll.findById(poll._id, (err,data) =>{
+                            
+                            data.options[0].should.include({votes: votes+1 });
+                            done();    
+                            
+                        });
+                    });
+            });
+            
+        });
+        
+        
+        it('Adds a new option when specified',(done) => {
+            
+            agent.post(`/polls/${poll._id}/vote`)
+                .send({radioOptions: 'addOption', newOption: 'Test Option 2'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    Poll.findById(poll._id, (err,data) => {
+                       
+                       should.not.exist(err);
+                       //console.log(data.options);
+                       data.options[0].should.contain({option: 'Test Option 2', votes: 1});
+                       
+                       done();
+                        
+                    });
+                    
+                });
+            
+        });
+        
+        
+        it('only allows authenticated users to add new options', (done) => {
+            
+            chai.request(server)
+                .post(`/polls/${poll._id}/vote`)
+                .send({radioOptions: 'addOption', newOption: 'Test Option 3'})
+                .set('content-type', 'application/x-www-form-urlencoded')
+                .end((err,res) => {
+                    
+                    err.should.exist;
+                    
+                    done();
+                    
+                });
+            
+        });
+        
+        
+        
+    });
+    
+    
+    
     
 });

@@ -1,0 +1,41 @@
+include ../includes/bootstrap.pug
+include ../includes/menu.pug
+.container
+    .row
+        .col-md-8.col-md-offset-2
+            .text-center.page-header
+                h3 Polls
+            table.table.table-striped.table-hover.table-responsive
+                thead
+                    tr
+                        th Poll
+                        th Username
+                        th Created
+                        th Results
+                tbody
+                    each poll in polls
+                        tr
+                            td #{poll.question}
+                            td #{poll.owner_id.username}
+                            td #{poll.createdAt}
+                            td
+                                ul.nav.nav-pills
+                                    li.active
+                                        a(href=`/polls/${poll.id}`)
+                                            span.glyphicon.glyphicon-edit
+                                            | &nbsp; Results
+            .row
+                .col-md-2
+                    ul.nav.nav-pills
+                        li.active
+                            -var skip = Number(request.query.skip);
+                            -skip = isNaN(skip) ? 0 : skip;
+                            a(href=`/polls?skip=${ skip - 25 < 0 ? 0 : skip - 25}`)
+                                span.glyphicon.glyphicon-circle-arrow-left
+                                | &nbsp; Previous
+                .col-md-2.col-md-offset-8
+                    ul.nav.nav-pills
+                        li.active
+                            a(href=`/polls?skip=${skip+25}`)
+                                span.glyphicon.glyphicon-circle-arrow-right
+                                | &nbsp; Next

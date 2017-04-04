@@ -11,7 +11,7 @@ let PollSchema = new mongoose.Schema({
             votes: Number
         }
     ],
-    owner_id: {type: mongoose.Schema.Types.ObjectId, required: true}
+    owner_id: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'}
     
 }, {
     timestamps: true
@@ -31,7 +31,7 @@ PollSchema.methods.addOption = function(option,cb) {
         
         if(err) return cb(err);
         
-        cb(null,this);
+        cb(null);
         
     });
     
@@ -41,6 +41,8 @@ PollSchema.methods.addOption = function(option,cb) {
 
 PollSchema.methods.voteFor = function(option, cb) {
     
+    if(isNaN(Number(option))) return cb(new Error("Option must be a number!"));
+    
     if(option < 0 || option >= this.options.length ) return cb(new Error('Option out of range'));
     
     this.options[option].votes += 1;
@@ -49,7 +51,7 @@ PollSchema.methods.voteFor = function(option, cb) {
         
         if(err) return cb(err);
         
-        cb(null, this);
+        cb(null);
         
     });
     

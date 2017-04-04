@@ -71,6 +71,7 @@ app.set('view engine', 'pug');
 app.use('/bootstrap', express.static(path.join('node_modules', 'bootstrap', 'dist' )));
 app.use('/jquery', express.static(path.join('node_modules', 'jquery', 'dist')));
 app.use('/scripts', express.static(path.join('public', 'scripts')))
+app.use('/chartJS', express.static(path.join('node_modules', 'chart.js', 'dist')));
 const routes = require('./routes/index')(passport);
 
 app.use('/', routes);
