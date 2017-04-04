@@ -259,6 +259,23 @@ describe("Application Route Testing", () => {
                 });
             
         });
+        
+        it('will use the skip url parameter', (done) => {
+            
+            chai.request(server)
+                .get('/polls?skip=2')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    res.should.have.status(200);
+                    
+                    res.should.be.html;
+                    
+                    done();
+                });
+            
+        });
+        
     });
     
     describe("GET /polls/:id", () => {

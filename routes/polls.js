@@ -3,6 +3,7 @@ const express = require('express');
 let router = express.Router();
 
 const Poll = require('../models/poll');
+const User = require('../models/user');
 
 router.get('/new', isAuthenticated, (req,res) => {
     
@@ -91,7 +92,31 @@ router.post('/:id/vote', (req,res) => {
     
 router.get('/', (req,res) => {
     //console.log('getting polls')
-    res.send('all the poll data');
+   
+    var query = Poll.find({}).limit(25).sort({'createdAt': -1});
+    
+    if(req.query.skip) {
+        query.skip(Number(req.query.skip));
+    }
+    
+    query.exec((err,data)=>{
+        
+        if(err) return res.redirect('/');
+        
+        User.populate(data, {path: 'owner_id'}, (err,user) => {
+            
+            //console.log(data);
+            
+            res.render('polls/pollList', {request: req, polls: data});    
+            
+            
+        });
+        
+        
+        
+    });
+    
+    //res.send('all the poll data');
 });
 
 

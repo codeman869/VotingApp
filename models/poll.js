@@ -11,7 +11,7 @@ let PollSchema = new mongoose.Schema({
             votes: Number
         }
     ],
-    owner_id: {type: mongoose.Schema.Types.ObjectId, required: true}
+    owner_id: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'}
     
 }, {
     timestamps: true
