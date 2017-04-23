@@ -1,6 +1,6 @@
 'use strict'
 const mongoose = require('mongoose');
-let User = require('../models/user');
+let User = require('../app/models/user');
 let chai = require('chai');
 let should = chai.should();
 

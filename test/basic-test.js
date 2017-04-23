@@ -5,8 +5,8 @@ let base_uri = `http://localhost:${process.env.PORT}`;
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
-let User = require('../models/user');
-let Poll = require('../models/poll');
+let User = require('../app/models/user');
+let Poll = require('../app/models/poll');
 
 
 chai.use(chaiHttp);

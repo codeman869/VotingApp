@@ -1,18 +1,16 @@
 'use strict'
-const express = require('express');
-let router = express.Router();
+const mongoose = require('mongoose');
+const Poll = mongoose.model('Poll');
+const User = mongoose.model('User');
 
-const Poll = require('../models/poll');
-const User = require('../models/user');
 
-router.get('/new', isAuthenticated, (req,res) => {
+exports.newPoll = function(req,res) {
     
-     
     res.render('polls/new', {request: req});
     
-});
+}
 
-router.post('/new', isAuthenticated, (req,res) => {
+exports.create = function(req,res) {
     
     //console.log(req);
     
@@ -29,25 +27,22 @@ router.post('/new', isAuthenticated, (req,res) => {
         if(err) console.warn(err);
         
         res.redirect(`/polls/${newPoll['_id']}`);
-        
-        
+
     });
     
-});
+}
 
-router.get('/:id', (req,res) => {
+exports.show = function(req,res) {
     Poll.findById(req.params.id,(err,poll) =>{
         if(err) return res.send('Could not find poll');
             
-        //res.render('polls/poll', {question: poll.question});
-        //console.log(req);
         res.render('polls/poll', {request: req, poll: poll});
             
     });
         
-});
+}
 
-router.post('/:id/vote', (req,res) => {
+exports.vote = function(req,res) {
     
     Poll.findById(req.params.id, (err,poll) => {
         if(err) res.redirect('/');
@@ -88,9 +83,9 @@ router.post('/:id/vote', (req,res) => {
     
     //res.json({completed: true});
     
-});
-    
-router.get('/', (req,res) => {
+}
+
+exports.showAll = function(req,res) {
     //console.log('getting polls')
    
     var query = Poll.find({}).limit(25).sort({'createdAt': -1});
@@ -117,15 +112,5 @@ router.get('/', (req,res) => {
     });
     
     //res.send('all the poll data');
-});
+}
 
-
-function isAuthenticated(req,res,next) {
-    if(req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/');
-    
-}    
-
-module.exports = router
