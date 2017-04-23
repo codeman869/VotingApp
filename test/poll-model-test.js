@@ -2,8 +2,8 @@
 let chai = require('chai');
 let should = chai.should();
 let mongoose = require("mongoose");
-let Poll = require("../models/poll");
-let User = require("../models/user");
+let Poll = require("../app/models/poll");
+let User = require("../app/models/user");
 
 let pollId = '';
 

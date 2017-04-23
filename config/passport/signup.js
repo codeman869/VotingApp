@@ -1,10 +1,12 @@
 'use strict'
 const LocalStrategy = require('passport-local').Strategy;
 const bCrypt = require('bcrypt-nodejs');
+const mongoose = require('mongoose');
 
-let User = require('../models/user');
-module.exports = function(passport) {
-    passport.use('signup', new LocalStrategy({
+//let User = require('../models/user');
+const User = mongoose.model('User');
+
+module.exports = new LocalStrategy({
         passReqToCallback: true
     
     }, (req,username,password,done) => {
@@ -34,5 +36,4 @@ module.exports = function(passport) {
     
         process.nextTick(findOrCreate);
     
-    }));
-}
+});
