@@ -1,0 +1,11 @@
+@media only screen and (max-width: 640px) {
+    #home-tab td:nth-child(2),
+    #home-tab th:nth-child(2) {
+        display: none;
+    }
+    
+    #over-tab td:nth-child(3),
+    #over-tab th:nth-child(3) {
+        display: none;
+    }
+}

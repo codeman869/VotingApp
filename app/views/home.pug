@@ -4,3 +4,29 @@ include includes/menu.pug
     .col-md-6.col-md-offset-3
         .page-header.text-center
             h1 Welcome #{request.user.username}
+            h3 Your Polls
+    .col-s-12.col-md-8.col-md-offset-2
+        table.table.table-striped.table-hover#home-tab
+                thead
+                    tr
+                        th Poll
+                        th Created
+                        th Results
+                        th Delete
+                tbody
+                    each poll in polls
+                        tr
+                            td #{poll.question}
+                            td #{poll.createdAt}
+                            td
+                                ul.nav.nav-pills
+                                    li.active
+                                        a(href=`/polls/${poll.id}`)
+                                            span.glyphicon.glyphicon-edit
+                                            | &nbsp; Results
+                            td
+                                ul.nav.nav-pills
+                                    li.active
+                                        a(href=`/polls/${poll.id}`)
+                                            span.glyphicon.glyphicon-remove
+                                            | &nbsp; Delete

@@ -30,5 +30,6 @@ module.exports = function(app,passport) {
     app.use('/jquery', express.static(path.join(config.root, 'node_modules', 'jquery', 'dist')));
     app.use('/scripts', express.static(path.join(config.root, 'public', 'scripts')))
     app.use('/chartJS', express.static(path.join(config.root, 'node_modules', 'chart.js', 'dist')));
+    app.use('/css', express.static(path.join(config.root, 'public', 'css')));
     
 }
