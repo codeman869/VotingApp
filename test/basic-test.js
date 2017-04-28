@@ -524,6 +524,104 @@ describe("Application Route Testing", () => {
     });
     
     
-    
+    describe("DELETE /polls/:id", () => {
+        
+        it('Does not allow unauthenticated users to access it', (done) => {
+            
+            chai.request(server)
+                .delete(`/polls/${poll._id}`)
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.redirect;
+                    
+                    done();
+                });
+            
+        });
+        
+        it('Deletes a poll', (done) => {
+            
+            agent.delete(`/polls/${poll._id}`)
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    Poll.findById(poll._id, (err,data)=>{
+                        
+                        
+                        should.not.exist(err);
+                        should.not.exist(data);
+                        done();
+                        
+                    });
+                    
+                    
+                    
+                });
+            
+            
+        });
+        
+        it('Handles errors when bad poll ids are requested', (done) => {
+            
+            agent.delete(`/polls/1234`)
+                .end((err,res) => {
+                    
+                    err.should.exist;
+                    
+                    res.should.have.status(400);
+                    
+                    done();
+                    
+                });
+            
+            
+        });
+        
+        it('Will not delete a poll owned by a different user', (done) => {
+            
+            let newUser = new User();
+            let newPoll = new Poll();
+            newUser.username = 'newUsername';
+            newUser.password = 'abcd1234';
+            
+            newUser.save((err) => {
+                
+            
+                newPoll.question = 'Test Question 2';
+                newPoll.owner_id = newUser._id;    
+                
+                newPoll.save((err) => {
+                    
+                    sendReq();
+                });
+                
+            });
+            
+            
+            
+            function sendReq() {
+                
+                agent.delete(`/polls/${newPoll._id}`)
+                .end((err,res) => {
+                    
+                    err.should.exist;
+                    
+                    res.should.have.status(401);
+                    
+                    done();
+                    
+                });
+                
+                
+            }
+            
+            
+            
+        });
+        
+    });
     
 });

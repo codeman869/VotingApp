@@ -45,5 +45,6 @@ module.exports = function(app, passport) {
     app.get('/polls/:id', polls.show);
     app.post('/polls/:id/vote', polls.vote);
     app.get('/polls', polls.showAll);
+    app.delete('/polls/:id', isAuthenticated, polls.delete);
     
 }

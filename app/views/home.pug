@@ -1,5 +1,6 @@
 include includes/bootstrap.pug
 include includes/menu.pug
+script(src="/scripts/home.js")
 .container
     .col-md-6.col-md-offset-3
         .page-header.text-center
@@ -27,6 +28,6 @@ include includes/menu.pug
                             td
                                 ul.nav.nav-pills
                                     li.active
-                                        a(href=`/polls/${poll.id}`)
+                                        a(href="#" onClick=`removePoll("${poll.id}")`)
                                             span.glyphicon.glyphicon-remove
                                             | &nbsp; Delete
