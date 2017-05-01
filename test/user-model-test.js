@@ -100,4 +100,48 @@ describe("User Model Tests", () =>{
         
     });
     
+    describe("User Model implements findOrCreate method", ()=> {
+        
+        it('should return a user if one exists in the db', (done) => {
+            
+            User.findOrCreate('testuser', (err,usr) => {
+                
+                should.not.exist(err);
+                
+                usr.should.exist;
+                
+                usr.username.should.equal('testuser');
+                
+                done();
+                
+            });
+            
+        });
+        
+        it('should create a user if no user exists in db', (done) => {
+            
+            User.findOrCreate('testuser1234', (err,usr) =>{
+                
+                should.not.exist(err);
+                
+                usr.username.should.equal('testuser1234');
+                
+                User.findOne({username: 'testuser1234'}, (err,persistedUser) => { 
+                    
+                    should.not.exist(err);
+                    
+                    persistedUser.should.exist;
+                    
+                    done();    
+                    
+                });
+                
+                
+                
+            });
+            
+        });
+        
+    });
+    
 });

@@ -7,6 +7,7 @@ const User = mongoose.model('User');
 //const local = require('./passport/init');
 const login = require('./passport/login');
 const signup = require('./passport/signup');
+const twitter = require('./passport/twitter');
 
 module.exports = function(passport) {
     
@@ -23,5 +24,7 @@ module.exports = function(passport) {
     //passport.use(local);
     passport.use('login', login);
     passport.use('signup', signup);
+    
+    passport.use('twitter', twitter);
     
 }

@@ -25,7 +25,13 @@ module.exports = function(app, passport) {
     // user routes
     
     app.get('/signup', users.signup);
-    app.get('/login', users.login);
+    app.get('/login', (req,res) => {
+        
+        if(req.isAuthenticated()) return res.redirect('/home');
+        
+        users.login(req,res);
+        
+    });
     app.post('/signup', passport.authenticate('signup', {
         successRedirect: '/home',
         failureRedirect: '/signup'
@@ -37,6 +43,15 @@ module.exports = function(app, passport) {
     app.get('/home', isAuthenticated, users.home);
     app.delete('/logout', isAuthenticated, users.logout);
     app.post('/users/exists', users.checkExists);
+    
+    // Twitter Auth Routes
+    
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+    
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+        successRedirect: '/home', 
+        failureRedirect: '/login'}));
+    
     
     // poll routes
     

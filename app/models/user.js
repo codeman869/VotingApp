@@ -8,7 +8,8 @@ let UserSchema = new mongoose.Schema(
             type: String, 
             unique: true
         },
-        password: String
+        password: String,
+        domain: String
     },
     {
         timestamps: true
@@ -28,6 +29,29 @@ UserSchema.pre('save', function(next) {
     next();
     
 });
+
+UserSchema.statics.findOrCreate = function(userid, done, twitter) {
+    
+    this.findOne({username:userid}, function(err,user){
+        if(err) return done(err);
+        
+        if(user) return done(null,user);
+        
+        let newUser = new User();
+        
+        newUser.username = userid;
+        if(twitter) newUser.domain = "twitter";
+        
+        newUser.save((err)=>{
+            if(err) return done(err);
+            done(null,newUser);
+            
+        });
+        
+        
+        
+    });
+}
 
 UserSchema.methods.validPassword = function(password) {
     return validPassword(password, this.password);

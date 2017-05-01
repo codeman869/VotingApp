@@ -13,7 +13,7 @@ function validPassword(user, password) {
 */
 module.exports =  new LocalStrategy((username, password, done) => {
     
-        User.findOne({username:username}, (err,usr) => {
+        User.findOne({username:username, domain:'local'}, (err,usr) => {
            if(err) return done(err);
            
            if(!usr) return done(null,false);
