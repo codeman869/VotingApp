@@ -25,7 +25,13 @@ module.exports = function(app, passport) {
     // user routes
     
     app.get('/signup', users.signup);
-    app.get('/login', users.login);
+    app.get('/login', (req,res) => {
+        
+        if(req.isAuthenticated()) return res.redirect('/home');
+        
+        users.login(req,res);
+        
+    });
     app.post('/signup', passport.authenticate('signup', {
         successRedirect: '/home',
         failureRedirect: '/signup'

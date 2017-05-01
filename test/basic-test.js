@@ -26,7 +26,7 @@ describe("Application Route Testing", () => {
             
             user.username = 'testuser';
             user.password = 'testpassword';
-            
+            user.domain = 'local';
             user.save((err) => {
                 if(err) throw err;
                 poll = new Poll();
@@ -183,6 +183,22 @@ describe("Application Route Testing", () => {
                     should.not.exist(err);
                     
                     res.should.have.status(200);
+                    
+                    done();
+                    
+                });
+            
+        });
+        
+        it('should redirect a user if already logged in', (done) =>{
+            
+            agent.get('/login')
+                .end((err,res) => {
+                    
+                    should.not.exist(err);
+                    
+                    res.should.have.status(200);
+                    res.should.redirect;
                     
                     done();
                     

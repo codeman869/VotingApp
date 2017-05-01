@@ -120,13 +120,13 @@ describe("User Model Tests", () =>{
         
         it('should create a user if no user exists in db', (done) => {
             
-            User.findOrCreate('testuser2', (err,usr) =>{
+            User.findOrCreate('testuser1234', (err,usr) =>{
                 
                 should.not.exist(err);
                 
-                usr.username.should.equal('testuser2');
+                usr.username.should.equal('testuser1234');
                 
-                User.findOne({username: 'testuser2'}, (err,persistedUser) => { 
+                User.findOne({username: 'testuser1234'}, (err,persistedUser) => { 
                     
                     should.not.exist(err);
                     

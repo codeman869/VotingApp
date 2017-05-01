@@ -13,8 +13,6 @@ module.exports = new TwitterStrategy({
     
     }, function(token, tokenSecret, profile, done){
         
-        console.log(profile);
-        
         User.findOrCreate(profile.username, (err,user) => {
         
             if(err) return done(err);
@@ -22,7 +20,7 @@ module.exports = new TwitterStrategy({
             return done(null,user);
             
             
-        });
+        }, true);
         
         
         

@@ -13,7 +13,7 @@ module.exports = new LocalStrategy({
     
         function findOrCreate() {
             //console.log('finding user...');
-            User.findOne({username: username}, (err,usr) => {
+            User.findOne({username: username, domain: 'local'}, (err,usr) => {
             if(err) console.warn(err);
             
             if(usr) return done(null,false);
@@ -22,7 +22,7 @@ module.exports = new LocalStrategy({
            
             newUser.username = username;
             newUser.password = password;
-           
+            newUser.domain = 'local';
             newUser.save((err) => {
                 if(err) console.warn(err);
                 
