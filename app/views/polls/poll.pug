@@ -38,7 +38,14 @@ script(type="text/javascript").
     
         function random(min,max) {
             return Math.floor((Math.random() * max) + min);
-        }    
+        }
+        
+        window.share = function() {
+            var url = encodeURIComponent(window.location.href);
+            var text = `!{poll.question}`;
+            window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(text)+"&url=" + url,"", "width=550,height=420");
+            
+        }
     });
 
 .container
@@ -63,3 +70,9 @@ script(type="text/javascript").
                         span.glyphicon.glyphicon-send
                         | &nbsp; Vote!
             canvas#myChart(width="400" height="400")
+    .row
+        .col-sm-12.col-md-2.col-md-offset-5
+            .text-center
+                a.btn.btn-primary(href="#" onClick="share()")
+                    i.fa.fa-lg.fa-twitter
+                    | &nbsp; Share via Twitter
