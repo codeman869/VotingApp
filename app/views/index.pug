@@ -1,0 +1,16 @@
+include includes/bootstrap.pug
+include includes/menu.pug
+.container
+    .col-md-6.col-md-offset-3
+        .page-header.text-center
+            h1 Voting App
+            h3 Create and Share Live Polls
+        .text-center 
+            a.btn.btn-primary(href="/polls") View Polls 
+            | &nbsp; or &nbsp;
+            if(request.user)
+                a.btn.btn-primary(href="/polls/new") Create Poll
+            else
+                a.btn.btn-primary(href="/login") Log in
+                | &nbsp; or &nbsp;
+                a.btn.btn-primary(href="/signup") Sign Up

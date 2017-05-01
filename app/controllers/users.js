@@ -1,6 +1,7 @@
 'use strict'
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const Poll = mongoose.model('Poll');
     
 exports.signup = function(req,res) {
     res.render('signup', {request: req});
@@ -12,8 +13,17 @@ exports.login = function(req,res) {
     
 
 exports.home = function(req,res) {
-       
-    res.render('home', {user: req.user.username, request: req}); 
+    var id = req.user._id;
+    //console.log(id);
+    
+    Poll.find({owner_id: id}, (err,data) => {
+        if(err) return res.redirect('/');
+        if(data == null) return res.render('home', {user: req.user.username, request: req, polls: "No Polls Found"})
+        res.render('home', {user: req.user.username, request: req, polls: data});
+        
+    });
+    
+     
 };
     
     

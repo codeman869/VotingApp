@@ -11,9 +11,14 @@ function isAuthenticated(req,res,next) {
     
 }
 
+
+/**
+ * Expose
+ */
+
 module.exports = function(app, passport) {
     app.get('/', (req,res) => {
-        res.send('Hello World!');
+        res.render('index', {request: req});
         
     });
     
@@ -40,5 +45,6 @@ module.exports = function(app, passport) {
     app.get('/polls/:id', polls.show);
     app.post('/polls/:id/vote', polls.vote);
     app.get('/polls', polls.showAll);
+    app.delete('/polls/:id', isAuthenticated, polls.delete);
     
 }

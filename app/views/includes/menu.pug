@@ -7,6 +7,18 @@ nav.navbar.navbar-inverse
         ul.nav.navbar-nav.navbar-right
             if(request.user)
                 li
+                    a(href="/polls")
+                        span.glyphicon.glyphicon-list
+                        | &nbsp; Polls
+                li
+                    a(href="/polls/new")
+                        span.glyphicon.glyphicon-plus
+                        | &nbsp; New Poll
+                li
+                    a(href="/home")
+                        span.glyphicon.glyphicon-home
+                        | &nbsp; Home
+                li
                     p.navbar-text Signed in as #{request.user.username}
                 li
                     a(href="#" id="logout")

@@ -114,3 +114,36 @@ exports.showAll = function(req,res) {
     //res.send('all the poll data');
 }
 
+exports.delete = function(req, res) {
+    
+    
+    Poll.findById(req.params.id, function(err,poll) {
+        
+        if(err) return res.sendStatus(400);
+        
+        User.populate(poll, {path: 'owner_id'}, (err,user) => {
+            
+           if(err) return res.send("Couldn't determine poll owner");
+           
+           if(poll.owner_id.username === req.user.username) {
+               Poll.findByIdAndRemove(req.params.id, (err,doc) => {
+                   
+                if(err) return res.sendStatus(500);
+
+                res.sendStatus(200);    
+                   
+               });
+               
+           } else {
+               
+               return res.sendStatus(401);
+           }
+            
+        });
+        
+        
+    });
+    
+    
+}
+
