@@ -38,6 +38,15 @@ module.exports = function(app, passport) {
     app.delete('/logout', isAuthenticated, users.logout);
     app.post('/users/exists', users.checkExists);
     
+    // Twitter Auth Routes
+    
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+    
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+        successRedirect: '/home', 
+        failureRedirect: '/login'}));
+    
+    
     // poll routes
     
     app.get('/polls/new', isAuthenticated, polls.newPoll);
